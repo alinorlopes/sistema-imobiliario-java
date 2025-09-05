@@ -15,14 +15,13 @@ public class InterfaceUsuario{
     //Getters
     
     public double getValorImovel() {
-    	return valorImovel;
+    	return this.valorImovel;
     }
     public int getPrazoFinanciamento() {
-    	return prazoFinanciamento;
+    	return this.prazoFinanciamento;
     }
-    
     public double getTaxaJurosAnual() {
-    	return taxaJurosAnual;
+    	return this.taxaJurosAnual;
     }
     
   //Métodos
@@ -43,7 +42,6 @@ public class InterfaceUsuario{
     		if (taxaJurosAnual < 1) {
     			System.out.println("Insira um valor Válido.");    			
     		} return taxaJurosAnual;
-    		
     	} while (taxaJurosAnual < 1);}
     
     
@@ -57,4 +55,8 @@ public class InterfaceUsuario{
 	        }return valorImovel;
         } while(valorImovel < 1);
     }
+    public double somarValorImovel(){
+       return valorImovel =+ valorImovel;
+    }
+
 }
