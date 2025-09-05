@@ -1,3 +1,8 @@
+package main;
+
+import util.InterfaceUsuario;
+import modelo.Financiamento;
+
 public class Main {
 
 
@@ -9,7 +14,7 @@ public class Main {
 
 
 
-        Financiamento financa1 = new Financiamento(intuser1.valorImovel, intuser1.prazoFinanciamento, intuser1.taxaJurosAnual);
+        Financiamento financa1 = new Financiamento(intuser1.getValorImovel() , intuser1.getPrazoFinanciamento() , intuser1.getTaxaJurosAnual());
         financa1.calcularPagamentoMensal();
 
 
