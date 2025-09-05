@@ -44,6 +44,7 @@ public class Main {
         System.out.println("\nResumo dos financiamentos:");
         for (Financiamento f : listaDeFinanciamento) {
             System.out.println(f);
+
         }
 
         System.out.println("\nSoma dos valores dos imóveis: R$" + String.format("%.2f", somaValorImoveis));

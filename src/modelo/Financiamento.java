@@ -8,25 +8,24 @@ public class Financiamento {
     private double taxaJurosAnual;
     private double pagamentoMensal;
     private double totalPagamento;
+    public int id;
+    private static int contador = 1;
+
 
     //Métodos Getters:
 
     public double getValorImovel() {
         return this.valorImovel;
     }
-
     public int getPrazoFinanciamento() {
         return this.prazoFinanciamento;
     }
-
     public double getTaxaJurosAnual() {
         return this.taxaJurosAnual;
     }
-
     public double getPagamentoMensal() {
         return this.pagamentoMensal;
     }
-
     public double getTotalPagamento() {
         return this.totalPagamento;
     }
@@ -37,6 +36,7 @@ public class Financiamento {
         this.valorImovel = valorImovel;
         this.prazoFinanciamento = prazoFinanciamento;
         this.taxaJurosAnual = taxaJurosAnual;
+        this.id = contador++;
     }
 
     //Métodos
@@ -46,9 +46,12 @@ public class Financiamento {
         String totalPagamentoFormatado = String.format("%.2f", totalPagamento).replace('.', ',');
 
 
-        return  "Financiamento " +
-                "Valor do imóvel = R$" + valorImovelFormatado +
-                "\nValor total do Financiamento = R$" + totalPagamentoFormatado;
+        return  "Financiamento  "  + id +
+        "\n Valor do imóvel: R$" + valorImovelFormatado +
+        "\n Valor total do Financiamento: R$" + totalPagamentoFormatado +
+        "\n Prazo: " + prazoFinanciamento + " anos" +
+        "\n Taxa de juros anual: " + taxaJurosAnual +"%";
+
     }
     public double calcularPagamentoMensal() {
         pagamentoMensal = (valorImovel / (prazoFinanciamento * 12)) * (1 + (taxaJurosAnual / 12));
