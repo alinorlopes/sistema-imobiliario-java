@@ -3,14 +3,13 @@ public class Financiamento {
 
     //Atributos
 
-    private double valorImovel;
-    private int prazoFinanciamento;
-    private double taxaJurosAnual;
+    protected double valorImovel;
+    protected int prazoFinanciamento;
+    protected double taxaJurosAnual;
     private double pagamentoMensal;
     private double totalPagamento;
     public int id;
     private static int contador = 1;
-
 
     //Métodos Getters:
 
@@ -45,19 +44,17 @@ public class Financiamento {
         String valorImovelFormatado = String.format("%.2f", valorImovel).replace('.', ',');
         String totalPagamentoFormatado = String.format("%.2f", totalPagamento).replace('.', ',');
 
-
         return  "Financiamento  "  + id +
         "\n Valor do imóvel: R$" + valorImovelFormatado +
         "\n Valor total do Financiamento: R$" + totalPagamentoFormatado +
         "\n Prazo: " + prazoFinanciamento + " anos" +
         "\n Taxa de juros anual: " + taxaJurosAnual +"%";
-
     }
+
     public double calcularPagamentoMensal() {
         pagamentoMensal = (valorImovel / (prazoFinanciamento * 12)) * (1 + (taxaJurosAnual / 12));
         System.out.printf(" O valor da parcela mensal desse financiamento é de R$%.2f.\n", pagamentoMensal);
         return pagamentoMensal;
-
     }
 
     public double calcularPagamentoTotal() {
@@ -66,9 +63,5 @@ public class Financiamento {
         }
         totalPagamento = (pagamentoMensal * prazoFinanciamento * 12);
         return totalPagamento;
-    }
-
-    public void mostrarDadosFinanciamento() {
-        System.out.println("Valor total do financiamento: " + totalPagamento + "\n 	Valor do Imóvel: " + valorImovel);
     }
 }
