@@ -1,12 +1,19 @@
 package modelo;
 
 public class Casa extends Financiamento{
-    Casa(double valorImovel, int prazoFinanciamento, double taxaJurosAnual) {
+    public Casa(double valorImovel, int prazoFinanciamento, double taxaJurosAnual) {
         super(valorImovel, prazoFinanciamento, taxaJurosAnual);
     }
 
     public double calcularPagamentoMensal() {
-        return super.calcularPagamentoMensal() + 80;
+        double base = super.calcularPagamentoMensal();
+        pagamentoMensal = base + 80;  // atualiza o atributo herdado
+        totalPagamento = pagamentoMensal * prazoFinanciamento * 12;
+        return pagamentoMensal;
+    }
+    public String toString(){
+        return "\nFinaciamento do tipo CASA\n" + super.toString();
+
     }
 }
 
