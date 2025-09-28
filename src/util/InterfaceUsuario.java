@@ -11,6 +11,9 @@ public class InterfaceUsuario {
 
     private Scanner scanner = new Scanner(System.in);
 
+    public InterfaceUsuario(Scanner sc) {
+    }
+
     // Getters
     public double getValorImovel() { return valorImovel; }
     public int getPrazoFinanciamento() { return prazoFinanciamento; }
