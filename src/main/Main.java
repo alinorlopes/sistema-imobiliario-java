@@ -1,79 +1,61 @@
 package main;
 
-import util.InterfaceUsuario;
-import modelo.*;
+import modelo.Apartamento;
+import modelo.Casa;
+import modelo.Financiamento;
+import util.AcrescimoMaiorDoQueJurosException;
+
+import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        // Criando lista de financiamentos
+        ArrayList<Financiamento> lista = new ArrayList<>();
+        lista.add(new Apartamento(500000, 30, 5, 2, 5)); // valorImovel, prazo, taxa, vagas, andar
 
-        List<Financiamento> listaDeFinanciamento = new ArrayList<>();
-        Scanner scanner = new Scanner(System.in);
-        InterfaceUsuario intuser1 = new InterfaceUsuario();
-
-        System.out.println("| Sistema imobiliário |\n");
-
-        // Acumuladores
-        double somaValorImoveis = 0;
-        double somaValorTotalFinanciamentos = 0;
-
-        intuser1.pedirValorImovel();
-        intuser1.pedirPrazoFinanciamento();
-        intuser1.pedirTaxaJurosAnual();
-
-        for (int i = 1; i <= 2; i++) {
-
-            Casa financiamentoCasa = new Casa (
-                    intuser1.getValorImovel(),
-                    intuser1.getPrazoFinanciamento(),
-                    intuser1.getTaxaJurosAnual());
-            financiamentoCasa.calcularPagamentoTotal();
-
-            listaDeFinanciamento.add(financiamentoCasa); //Adiciona o financiamento na lista
-
-            // Atualiza os acumuladores
-            somaValorImoveis += intuser1.getValorImovel();
-            somaValorTotalFinanciamentos += financiamentoCasa.calcularPagamentoTotal();
+        try {
+            lista.add(new Casa(300000, 20, 4, 120, 200)); // valorImovel, prazo, taxa, areaConstruida, areaTerreno
+        } catch (AcrescimoMaiorDoQueJurosException e) {
+            System.out.println("Erro ao adicionar Casa: " + e.getMessage());
         }
 
-        for (int i = 1;i <= 2;i++) {
-            Apartamento financiamentoApartamento = new Apartamento(
-                    intuser1.getValorImovel(),
-                    intuser1.getPrazoFinanciamento(),
-                    intuser1.getTaxaJurosAnual());
-                    financiamentoApartamento.calcularPagamentoTotal();
-
-            listaDeFinanciamento.add(financiamentoApartamento);
-
-            // Atualiza os acumuladores
-            somaValorImoveis += intuser1.getValorImovel();
-            somaValorTotalFinanciamentos += financiamentoApartamento.calcularPagamentoTotal();
+        // Salvar em arquivo de texto
+        try (PrintWriter pw = new PrintWriter(new FileWriter("financiamentos.txt"))) {
+            for (Financiamento f : lista) {
+                pw.println(f.toTexto());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        Terreno financiamentoTerreno = new Terreno(
-                intuser1.getValorImovel(),
-                intuser1.getPrazoFinanciamento(),
-                intuser1.getTaxaJurosAnual());
-
-        financiamentoTerreno.calcularPagamentoMensal();
-
-
-        listaDeFinanciamento.add(financiamentoTerreno);
-
-        // Atualiza os acumuladores
-        somaValorImoveis += intuser1.getValorImovel();
-        somaValorTotalFinanciamentos += financiamentoTerreno.calcularPagamentoTotal();
-
-
-        // Exibe os resultados
-        System.out.println("\nResumo dos financiamentos:");
-        for (Financiamento f : listaDeFinanciamento) {
-            System.out.println(f);
-
+        // Ler arquivo de texto
+        System.out.println("Lendo do arquivo de texto:");
+        try (BufferedReader br = new BufferedReader(new FileReader("financiamentos.txt"))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                System.out.println(linha);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println("\nSoma dos valores dos imóveis: R$" + String.format("%.2f", somaValorImoveis));
-        System.out.println("Soma dos valores totais dos financiamentos: R$" + String.format("%.2f", somaValorTotalFinanciamentos));
+
+        // Salvar serializado
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("financiamentos.ser"))) {
+            oos.writeObject(lista);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Ler serializado
+        System.out.println("\nLendo do arquivo serializado:");
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("financiamentos.ser"))) {
+            ArrayList<Financiamento> listaLida = (ArrayList<Financiamento>) ois.readObject();
+            for (Financiamento f : listaLida) {
+                f.exibirDetalhes();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
